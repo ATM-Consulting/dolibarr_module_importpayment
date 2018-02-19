@@ -306,6 +306,7 @@ class TImportReglement extends TObjetStd
 		);
 	}
 
+	// TODO à refactorer pour passer l'objet facture en param pour utiliser la méthode getListOfPayments()
 	public static function IsPaymentAlreadyExists(Paiement $payment){
 
 		global $db;
