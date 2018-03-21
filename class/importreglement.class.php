@@ -180,7 +180,8 @@ class TImportReglement extends TObjetStd
 
 		$TError = array();
 		$TOrderFieldName = array_flip($TFieldOrder);
-
+		$nb_do_not_import_double_payment = 0;
+		
 		$db->begin();
 		foreach ($TData as $key=>$Tab)
 		{
@@ -243,13 +244,15 @@ class TImportReglement extends TObjetStd
 					}
 				}
 			} else {
+				$TError[] = $langs->transnoentities('ImportReglementLineIgnoredCauseOfDoublePayment', $Tab[$TOrderFieldName['ref_facture']]->ref);
 				unset($TData[$key]);
+				$nb_do_not_import_double_payment++;
 			}
 		}
-
+		
 		if ($simulation) $db->rollback();
 		else $db->commit();
-
+		
 		return $TError;
 	}
 
@@ -311,14 +314,16 @@ class TImportReglement extends TObjetStd
 
 		global $db;
 
-		if (is_array($payment->amounts && count ($payment->amounts)>0)) {
-			foreach($payment->amounts as $facid=>$amount) {
-				$sql = 'SELECT p.rowid FROM '.MAIN_DB_PREFIX.$payment->tablename. ' as p ';
+		if (is_array($payment->amounts) && count ($payment->amounts)>0)
+		{
+			foreach($payment->amounts as $facid=>$amount)
+			{
+				$sql = 'SELECT p.rowid FROM '.MAIN_DB_PREFIX.$payment->table_element. ' as p ';
 				$sql .= ' INNER JOIN '. MAIN_DB_PREFIX.'paiement_facture as pf';
 				$sql .= ' ON pf.fk_paiement=p.rowid';
-				$sql .= ' WHERE p.datep=\''.$this->db->idate($payment->datepaye).'\'';
+				$sql .= ' WHERE p.datep=\''.$db->idate($payment->datepaye).'\'';
 				$sql .= ' AND pf.fk_facture='.$facid;
-				$sql .= ' AND pf.amount=\''.$amount.'\'';
+				$sql .= ' AND pf.amount='.$amount;
 
 				dol_syslog(get_class($this).'::'.__METHOD__,LOG_DEBUG);
 				$resql = $db->query($sql);
@@ -328,11 +333,9 @@ class TImportReglement extends TObjetStd
 						return $obj->rowid;
 					}
 				} else {
-					$this->TError[] = $db->lasterror;
+					dol_print_error($db->lasterror);
+					exit;
 				}
-			}
-			if (!empty($this->TError)) {
-				return -1;
 			}
 		}
 

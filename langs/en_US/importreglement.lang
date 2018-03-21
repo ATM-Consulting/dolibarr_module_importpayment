@@ -24,6 +24,8 @@ ImportReglementSuccess=Payment(s) saved
 ImportReglementErrorDatePaymentEmpty=Error: please enter a valid date
 ImportReglementErrorPaymentTypeEmpty=Error: please enter a payment method
 ImportReglementErrorBankAccountEmpty=Error: please enter an account to be credited
+ImportReglementLineIgnoredCauseOfDoublePayment=Payment ignored for invoice [%s] because the date and amount already exist
+ImportReglementEmptyData=No data to import
 
 # CARD TPL
 FileToImport=File to import

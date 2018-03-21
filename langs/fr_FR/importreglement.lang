@@ -24,6 +24,8 @@ ImportReglementSuccess=Paiement(s) enregistré(s)
 ImportReglementErrorDatePaymentEmpty=Erreur : veuillez saisir une date valide
 ImportReglementErrorPaymentTypeEmpty=Erreur : veuillez saisir un mode de règlement
 ImportReglementErrorBankAccountEmpty=Erreur : veuillez saisir un compte à créditer
+ImportReglementLineIgnoredCauseOfDoublePayment=Paiement ignoré pour la facture [%s] car déjà existant à la même date et même montant
+ImportReglementEmptyData=Aucune donnée à importer
 
 # CARD TPL
 FileToImport=Fichier à importer
