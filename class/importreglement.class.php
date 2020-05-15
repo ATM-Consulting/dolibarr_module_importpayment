@@ -325,7 +325,7 @@ class TImportReglement extends TObjetStd
 				$sql .= ' AND pf.fk_facture='.$facid;
 				$sql .= ' AND pf.amount='.$amount;
 
-				dol_syslog(get_class($this).'::'.__METHOD__,LOG_DEBUG);
+				dol_syslog('TImportReglement::'.__METHOD__,LOG_DEBUG);
 				$resql = $db->query($sql);
 				if ($resql) {
 					$obj=$db->fetch_object($resql);
