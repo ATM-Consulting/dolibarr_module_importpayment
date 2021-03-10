@@ -211,7 +211,8 @@ class TImportReglement extends TObjetStd
 
 			$paiement->amounts = array($Tab[$TOrderFieldName['ref_facture']]->id => $Tab[$TOrderFieldName['total_ttc']]);   // Array with all payments dispatching with invoice id
 			$paiement->paiementid = $fk_c_paiement; //dol_getIdFromCode($db,GETPOST('paiementcode'),'c_paiement');
-			$paiement->num_paiement = $Tab[$TOrderFieldName['num_paiement']];
+			if (floatval(DOL_VERSION) >= 13.0) $paiement->num_payment = $Tab[$TOrderFieldName['num_paiement']];
+			else $paiement->num_paiement = $Tab[$TOrderFieldName['num_paiement']];
 			$paiement->note = $Tab[$TOrderFieldName['comment1']]."\n";
 			$paiement->note .= $Tab[$TOrderFieldName['comment2']]."\n";
 			$paiement->note .= $Tab[$TOrderFieldName['comment3']]."\n";
